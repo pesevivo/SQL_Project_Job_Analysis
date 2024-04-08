@@ -1,7 +1,7 @@
 /* 
- Question: What skills are required for the top-paying job?
+ Question: What skills are required for the top-paying jobs?
  - Use the obtained 10 top-paying jobs from the first query.
- - Discover the specific skills required for those roles.
+ - List the specific skills required for those roles.
  */
 
  -- CTE
@@ -24,14 +24,12 @@ WITH top_paying_jobs AS (
         10
 )
 
-SELECT 
-    sk_dim.skills,
-    COUNT(*) AS cnt
+SELECT
+    top_paying_jobs.*,
+    sk_dim.skills
 FROM 
     top_paying_jobs
     INNER JOIN skills_job_dim AS skjob_dim ON top_paying_jobs.job_id = skjob_dim.job_id
     INNER JOIN skills_dim AS sk_dim ON skjob_dim.skill_id = sk_dim.skill_id
-GROUP BY
-    sk_dim.skills
 ORDER BY 
-    cnt DESC  
+    top_paying_jobs.salary_year_avg DESC  
