@@ -1,3 +1,10 @@
+/*
+Question: What are the most optimal skills to learn? (high demand and high paying)
+ - Examine the average salary associated for each skill Data Analyst positions.
+ - Focus is on job postings with disclosed salaries and located in Germany. (null values should be removed)
+
+*/
+
 SELECT 
     sk_dim.skill_id,
     sk_dim.skills,
