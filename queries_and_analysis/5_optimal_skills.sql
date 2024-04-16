@@ -1,12 +1,8 @@
-/*
-Question: What are the most in-demand skills for data analysts?
- - Focus on all job postings for Germany.
- - Identify the top 5 skills.
-*/
-
-SELECT
+SELECT 
+    sk_dim.skill_id,
     sk_dim.skills,
-    COUNT(skjob_dim.job_id) AS skill_demand
+    COUNT(skjob_dim.job_id) AS skill_demand,
+    ROUND(AVG(jp_fact.salary_year_avg), 0) as avg_salary
 FROM 
     job_postings_fact AS jp_fact
     INNER JOIN skills_job_dim AS skjob_dim ON jp_fact.job_id = skjob_dim.job_id
@@ -14,8 +10,12 @@ FROM
 WHERE
     jp_fact.job_country = 'Germany'
     AND jp_fact.job_title_short = 'Data Analyst'
+    AND jp_fact.salary_year_avg IS NOT NULL
 GROUP BY
+    sk_dim.skill_id,
     sk_dim.skills
+HAVING
+   COUNT(skjob_dim.job_id) >= 5
 ORDER BY
-    skill_demand DESC
-LIMIT 5
+    skill_demand DESC,
+    avg_salary DESC
